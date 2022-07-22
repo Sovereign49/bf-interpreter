@@ -11,6 +11,8 @@ fn main() {
 }
 
 fn bf(prog: Vec<char>) {
+
+    // Setup values for interpreter
     let mut tape: [i32;255] = [0;255];
     let mut cell_index = 0;
     let mut ip = 0; //index pointer
@@ -19,9 +21,11 @@ fn bf(prog: Vec<char>) {
     let mut loop_begining_index: usize;
     let mut input = String::new();
     let mut inp = std::collections::VecDeque::new();
-    let mut _b1;
+    let mut _b1; //unused variable for getting input
 
-    while ip < prog.len() {
+    //Initialize Square Bracket Loop HashMap
+
+    while ip < prog.len() { 
         let instruction = prog[ip];
         if instruction == '[' {
             loop_stack.push(ip)
@@ -65,7 +69,8 @@ fn bf(prog: Vec<char>) {
                     ip = *loop_table.get(&ip).unwrap()
                 }
             },
-            '.' => (print!("{}", tape[cell_index] as u8 as char)),
+            '.' => (print!("{}", tape[cell_index] as u8 as char)), 
+            // Converting u8 to char acts as converting a number to its corresponding ascii
             ',' => {
                 {
                     if inp.is_empty() {
@@ -75,7 +80,9 @@ fn bf(prog: Vec<char>) {
                         inp = input.chars().collect()
                     }
 
+                    // the same char can be translated back into a u8
                     tape[cell_index] = inp.pop_front().unwrap() as u8 as i32;
+                    //P.S. for future me please use u8 as the default value everywhere  
                 }
             },
             _ => (),
